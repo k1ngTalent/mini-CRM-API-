@@ -74,37 +74,37 @@ $app->get('/user:_id', function ($_id) {
 });
 $app->put('/editUser:_id', function ($_id) {
     $db = new util();
-  $response = array();
-  $query = "SELECT * from company where _id= '$_id'";
-  $checkExist = $db->getOne($query);
-  if ($checkExist != null) {
-    $s = json_decode($app->request->getBody());
-    $s->_id = $_id;
-    verifyRequiredParams(array('name', 'email', 'website'), $s);
-    $tableName = 'company';
-    $where = array('_id' => $_id);
-    $query = "SELECT * from company where name = '$s->name' and _id!='$_id'";
+    $response = array();
+    $query = "SELECT * from company where _id= '$_id'";
     $checkExist = $db->getOne($query);
-    if ($checkExist == null) {
-      $res = $db->update($tableName, $s, $where);
-      if ($res === 'success') {
-        $response["status"] = "success";
-        $response["message"] = "Edited succesfully";;
-        echoResponse(200, $response);
-      } else {
-        $response["status"] = "error";
-        $response["message"] = "error Try again";
-        echoResponse(201, $response);
-      }
+    if ($checkExist != null) {
+        $s = json_decode($app->request->getBody());
+        $s->_id = $_id;
+        verifyRequiredParams(array('name', 'email', 'website'), $s);
+        $tableName = 'company';
+        $where = array('_id' => $_id);
+        $query = "SELECT * from company where name = '$s->name' and _id!='$_id'";
+        $checkExist = $db->getOne($query);
+        if ($checkExist == null) {
+            $res = $db->update($tableName, $s, $where);
+            if ($res === 'success') {
+                $response["status"] = "success";
+                $response["message"] = "Edited succesfully";;
+                echoResponse(200, $response);
+            } else {
+                $response["status"] = "error";
+                $response["message"] = "error Try again";
+                echoResponse(201, $response);
+            }
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Company already exist";
+            echoResponse(201, $response);
+        }
     } else {
-      $response["status"] = "error";
-      $response["message"] = "Company already exist";
-      echoResponse(201, $response);
+        $response["status"] = "error";
+        $response["message"] = "Company doesnt exist";
     }
-  } else {
-    $response["status"] = "error";
-    $response["message"] = "Company doesnt exist";
-  }
 });
 $app->delete('/user:_id', function ($_id) {
     $db = new util();

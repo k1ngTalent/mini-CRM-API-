@@ -11,7 +11,7 @@ require '../Slim/Slim.php';
 
 $app = new \Slim\Slim();
 
-$user_id = NULL;
+$user_id = null;
 
 
 require_once 'company.php';
@@ -19,7 +19,8 @@ require_once 'users.php';
 require_once 'employee.php';
 require_once 'auth.php';
 
-function verifyRequiredParams($required_fields,$request_params) {
+function verifyRequiredParams($required_fields, $request_params)
+{
     $error = false;
     $error_fields = "";
     foreach ($required_fields as $field) {
@@ -40,7 +41,8 @@ function verifyRequiredParams($required_fields,$request_params) {
 
 
 
-function echoResponse($status_code, $response) {
+function echoResponse($status_code, $response)
+{
     $app = \Slim\Slim::getInstance();
     $app->status($status_code);
     $app->contentType('application/json');

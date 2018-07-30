@@ -150,7 +150,7 @@ class util
 		foreach ($values as $key => $value) {
 			$to_return[':' . $key] = $value;
 		}
-		$values= array_slice($values, 0, sizeof($value) - 2);
+		$values = array_slice($values, 0, sizeof($value) - 2);
 		foreach ($values as $key => $value) {
 			$c = $c . $key . "=:" . $key . ',';
 
@@ -168,12 +168,12 @@ class util
 			$query = "UPDATE $tableName SET $c WHERE $w";
 
 			$stmt = $this->conn->prepare($query);
-    	
-    		if($stmt->execute($to_return)){
-    			$message = "success";
-    		}else{
-    			$message = "error";
-   		    }
+
+			if ($stmt->execute($to_return)) {
+				$message = "success";
+			} else {
+				$message = "error";
+			}
 			return $message;
 		} catch (PDOException $e) {
 			echo $e->getMessage();

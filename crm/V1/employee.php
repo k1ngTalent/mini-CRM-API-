@@ -109,14 +109,14 @@ $app->get('/compEmployees:_id', function ($_id) {
         echoResponse(201, $response);
     }
 });
-$app->put('/editEmployee/:_id', function($_id) use ($app) {
+$app->put('/editEmployee/:_id', function ($_id) use ($app) {
     $db = new util();
     $response = array();
     $data = json_decode($app->request->getBody());
     verifyRequiredParams(array('firstname', 'lastname', 'emp_num', 'company_id', 'phone_number'), $data);
     $newEmp = $data->emp_num;
     $newCompId = $data->company_id;
-    $data->_id=$_id;
+    $data->_id = $_id;
     $query = "SELECT * from employees where _id='$_id'";
     if ($db->getOne($query) != null) {
         $query = "SELECT * from company where _id = '$newCompId'";
@@ -125,7 +125,7 @@ $app->put('/editEmployee/:_id', function($_id) use ($app) {
             $checkExist = $db->getOne($query);
             if ($checkExist == null) {
                 $tableName = "employees";
-                $where = array('_id'=>$_id);
+                $where = array('_id' => $_id);
                 $res = $db->update($tableName, $data, $where);
                 $response['status'] = $res;
                 $response['message'] = "Updated successfully";
@@ -208,7 +208,7 @@ $app->delete('/employee/:company_id/:emp_num', function ($company_id, $emp_num) 
         $query = "SELECT * from employees where emp_num= '$emp_num' and company_id='$company_id'";
         if ($db->getOne($query) != null) {
             $tableName = 'employees';
-            $where = array('emp_num' => $emp_num,'company_id'=>$company_id);
+            $where = array('emp_num' => $emp_num, 'company_id' => $company_id);
             $res = $db->delete($tableName, $where);
             if ($res == "success") {
                 $response["status"] = "success";
